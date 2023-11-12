@@ -8,7 +8,8 @@ import React from 'react'
 import {formatDate} from '../functions/formatDate.js';
 import {fetchToggleCompleted, fetchDeleteToDo, fetchToggleForToday} from '../functions/fetchFunctions.js';
 import { useToDoContext } from "../hooks/useToDoContext";
-
+import { useAuthContext } from '../hooks/useAuthContext.js';
+import {Link} from 'react-router-dom';
 
 const ToDoDetails = ({props}) => {
     const {title, 
@@ -22,6 +23,7 @@ const ToDoDetails = ({props}) => {
     const completedId = completed ? "completed-button" : "notCompleted-button";
     const forTodayStr = forToday ? "Yes" : "No";
     const {dispatch} = useToDoContext();
+    const {user} = useAuthContext();
 
     let formattedDueDate = "Due Date not set";
     if (dueDate) {
@@ -64,7 +66,7 @@ const ToDoDetails = ({props}) => {
                 className="complete-btn"
                 
                 onClick={() => {
-                    fetchToggleCompleted(_id);
+                    fetchToggleCompleted(_id, user);
                     dispatch({type: 'TOGGLE_COMPLETE_BY_ID', payload: {_id}});
                 }} 
                 id={completedId}>
@@ -74,18 +76,23 @@ const ToDoDetails = ({props}) => {
                 className="add-today-todo"
                 onClick={() => {
                     // complete both the backend and frontend global state operation to update the forToday property
-                    fetchToggleForToday(_id);
+                    fetchToggleForToday(_id, user);
                     dispatch({type: 'TOGGLE_FOR_TODAY', payload: {_id}})
                 }}  
             >
                 Add to Today's To Do's
             </button>
-            <button>Edit</button>
+            <Link
+                className="edit-todo-btn"
+                to="/editToDo"
+            >
+                Edit
+            </Link>
             <button 
                 id="trash-btn"
                 className="material-symbols-outlined"
                 onClick={() => {
-                    fetchDeleteToDo(_id)
+                    fetchDeleteToDo(_id, user)
                     dispatch({type: 'DELETE_TODO', payload: {_id}})
                     }
                 }

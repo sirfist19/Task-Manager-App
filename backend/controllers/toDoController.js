@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const {toDo} = require('../models/toDoSchema'); // import the schemas
 
 const getAllToDos = async (req, res) => {
-    const allToDos = await toDo.find({});
+    const user_id = req.user._id;
+    const allToDos = await toDo.find({user_id});
     res.status(200).json(allToDos);
 };
 
 const createToDo = async (req, res) => {
     console.log("Adding a new todo");
+    const user_id = req.user._id;
     // get the data from the req
     const {
         title, 
@@ -15,7 +17,7 @@ const createToDo = async (req, res) => {
         dueDate, 
         completed,
         category,
-        forToday
+        forToday,
     } = req.body;
 
     // read it and make a new obj
@@ -26,13 +28,36 @@ const createToDo = async (req, res) => {
             dueDate, 
             completed,
             category,
-            forToday
+            forToday,
+            user_id
         }); // creates a new document in the db
         res.status(200).json(created_toDo);
     } catch (error) {
         console.log(error);
         res.status(400).json({error: error.message});
+    } 
+};
+const editToDo = async(req, res) => {
+    //const user_id = req.user._id;
+    const {id} = req.params;
+    const modToDo = req.body;
+    console.log(`Editing a to-do with id ${id}`);
+    console.log(modToDo);
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: "Not a valid id"});
     }
+
+    const updatedToDo = await toDo.findByIdAndUpdate(
+        id,
+        modToDo,
+        {new:true}
+    );
+    
+    if (!updatedToDo) {
+        return res.status(400).json({error: "No To Do found to modify"})
+    }
+    return res.status(200).json(updatedToDo);
 };
 
 const deleteToDoWithId = async (req, res) => {
@@ -102,6 +127,7 @@ const toggleForTodayWithId = async (req, res) => {
 module.exports = {
     getAllToDos,
     createToDo,
+    editToDo,
     toggleCompleteWithId,
     toggleForTodayWithId,
     deleteToDoWithId

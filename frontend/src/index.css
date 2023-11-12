@@ -10,6 +10,7 @@
   --default-shadow: 0px 2px 4px rgb(0, 0, 0);
   --default-border-radius: 5px;
   --default-font: 'Roboto Slab';
+  --dropdown-navbar-color: rgb(97, 97, 97);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto:wght@100&family=Work+Sans&display=swap');
@@ -25,11 +26,78 @@ html, body {
 https://sympli.io/blog/dark-ui-best-practices-and-examples
 */
 /* for the navbar */
-header {
+.header {
+  margin: 0;
+}
+.right-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.left-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.left-info a {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.user-email {
+  color: var(--dark-text);
+  display: block;
+}
+.logout-btn {
+  color: red;
+  background-color: rgb(84, 46, 46);
+  border: none;
+  border-radius: 20px;
+  padding: 5px;
+  width: 80px;
+  height: 40px;
+  box-sizing: border-box;
+}
+.navbar {
   background-color: var(--lighter-gray);
   box-shadow: var(--default-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+  height: 90px;
+  box-sizing: border-box;
+  position: relative;
+}
+.dropdown {
+  position: absolute;
+  background-color: var(--dropdown-navbar-color);
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: .5rem;
+  
+  width: 150px;
+  height: 80px;
+  
+}
+.dropdown li {
+  list-style-type: none;
+  margin: 10px 5px;
+}
+.navbar a, .title-bar a, .edit-todo-btn {
+  text-decoration: none;
+  color: var(--dark-text);
+  margin: 5px;
 }
 
+
+.title-bar {
+  
+  padding: 5px;
+  text-align: center;
+}
 .container {
   display: flex;
   align-items: 'center';
@@ -50,7 +118,7 @@ header {
   
   background-color: var(--lighter-gray);
   border-radius: 5px;
-  width: 75%;
+  width: 90%;
   margin: 2rem auto;
   padding: .5rem 2rem;
 
@@ -230,4 +298,18 @@ header {
   border-radius: 20px;
  
   padding: .5rem 1.5rem;
+}
+
+.success-msg {
+  /*border-radius: var(--default-border-radius);
+  border: 1px solid green;
+  background-color: var(--light-green);*/
+  padding: 5px;
+  color: rgb(191, 249, 154);
+  font-size: 1.5rem;
+}
+.failure-msg {
+  padding: 5px;
+  color: rgb(188, 49, 49);
+  font-size: 1.5rem;
 }

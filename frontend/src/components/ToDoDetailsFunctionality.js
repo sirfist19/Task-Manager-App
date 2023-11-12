@@ -6,7 +6,7 @@ const ToDoDetailsFunctionality = () => {
   const {toDos, toDoDetails} = useToDoContext();
   return (
     <div className="toDoDetails">
-        {toDos.map(
+        {toDos && toDos.map(
             (toDo) => {
                 if (toDoDetails.show && toDo._id === toDoDetails._id) {
                     // show the detail of that todo

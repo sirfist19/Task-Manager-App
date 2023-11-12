@@ -23,10 +23,24 @@ export const toDoReducer = (state, action) => {
                 ...state,
                 toDos: [...state.toDos, action.payload]
             }
-        case 'CREATE_CATEGORY':
+        case 'CREATE_CATEGORY': 
+            console.log("Category to add", action.payload);
+            console.log("Current state:", state);
             return {
                 ...state,
                 categories: [...state.categories, action.payload]
+            }
+        case 'EDIT_TODO':
+            return {
+                ...state, 
+                toDos: state.toDos.map(
+                    (toDo) => {
+                        if (toDo._id === action.payload._id) {
+                            return action.payload;
+                        }
+                        return toDo;
+                    }
+                )
             }
         case 'TOGGLE_FOR_TODAY':
             return {

@@ -1,42 +1,32 @@
 import React, {useState} from 'react'
-import Navbar from '../components/Navbar';
+import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useToDoContext } from "../hooks/useToDoContext";
+import { useAuthContext } from '../hooks/useAuthContext';
 import  ColorSelection  from '../components/ColorSelection';
+import { fetchCreateCategory } from '../functions/fetchFunctions';
 
 const AddCategory = () => {
     const {dispatch} = useToDoContext();
     const [error, setError] = useState(null);
     const [name, setName] = useState('');
     let [color, setColor] = useState('');
+    const {user} = useAuthContext();
 
-    const handleSubmit = async() => {
-        const newCategory = {name: name, color: color};
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const res = await fetchCreateCategory(user, name, color);
 
-        const response = await fetch(
-            process.env.REACT_APP_BACKEND_API_ENDPOINT + '/category',
-            {
-                method: 'POST',
-                body: JSON.stringify(newCategory),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }    
-        );
-
-        const json = response.json();
-        if (response.ok) {
+        if (res) {
             setError(null);
             setName('');
-            dispatch({type: 'CREATE_CATEGORY', payload: json}); 
-        }
-        else {
-            console.log(json.error);
+            //console.log("New category to add json: ", json)
+            dispatch({type: 'CREATE_CATEGORY', payload: res}); 
         }
     }
     return (
         <div>
-            <Navbar textToDisplay={"Create a new category"}/>
+            <Header title={"Create a new category"}/>
             <form className="create" onSubmit={handleSubmit}>
                 <div className="input-row">
                     <label>Name:</label>

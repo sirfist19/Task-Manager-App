@@ -11,6 +11,7 @@ import React from 'react'
 import {formatDate} from '../functions/formatDate.js';
 import {fetchToggleCompleted, fetchDeleteToDo} from '../functions/fetchFunctions.js';
 import { useToDoContext } from "../hooks/useToDoContext";
+import { useAuthContext } from '../hooks/useAuthContext.js';
 
 const ToDo = ({props}) => {
     const {title, dueDate, completed, _id} = props;
@@ -18,7 +19,8 @@ const ToDo = ({props}) => {
     const completedId = completed ? "completed-button" : "notCompleted-button";
 
     const {dispatch} = useToDoContext();
-
+    const {user} = useAuthContext();
+    
     let formattedDueDate = "Due Date not set";
     if (dueDate) {
         formattedDueDate = formatDate(dueDate);
@@ -40,7 +42,7 @@ const ToDo = ({props}) => {
             <button 
                 className="complete-btn"
                 onClick={() => {
-                    fetchToggleCompleted(_id);
+                    fetchToggleCompleted(_id, user);
                     dispatch({type: 'TOGGLE_COMPLETE_BY_ID', payload: {_id}});
                 }} 
                 id={completedId}>
@@ -50,7 +52,7 @@ const ToDo = ({props}) => {
                 id="trash-btn"
                 className="material-symbols-outlined"
                 onClick={() => {
-                    fetchDeleteToDo(_id)
+                    fetchDeleteToDo(_id, user)
                     dispatch({type: 'DELETE_TODO', payload: {_id}})
                     }
                 }

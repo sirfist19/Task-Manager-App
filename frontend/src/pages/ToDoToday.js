@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar';
+import Header from '../components/Header';
 import {formatDate} from '../functions/formatDate.js';
 import { useToDoContext } from "../hooks/useToDoContext";
 import ToDo from '../components/ToDo';
@@ -11,7 +11,7 @@ const ToDoToday = () => {
     
   return (
     <div>
-      <Navbar textToDisplay={"To get done TODAY!"}/>
+      <Header title={"To get done TODAY! BACK"}/>
       <h1>Today's Date: {formatDate(Date.now())}</h1>
       <AddBar/>
       <ToDoDetailsFunctionality/>

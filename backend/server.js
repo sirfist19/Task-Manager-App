@@ -8,6 +8,7 @@ const cors = require('cors');
 // import routers
 const toDoRouter =  require('./routers/toDoRouter');
 const categoryRouter = require('./routers/categoryRouter');
+const userRouter = require('./routers/userRouter');
 
 // connect the routers to their paths
 app.use(express.json()); // allow json parsing
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 
 // Linking the routers 
+app.use('/api/toDo/user', userRouter);
 app.use('/api/toDo', toDoRouter);
 app.use('/api/toDo/category', categoryRouter);
 

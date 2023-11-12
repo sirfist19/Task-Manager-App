@@ -8,7 +8,7 @@ const AddBar = () => {
   return (
     <div className="addBar">
     <select onChange={(e) => {
-        console.log(`A change in selection${e.target.value}`)
+        //console.log(`A change in selection${e.target.value}`)
         dispatch({type: e.target.value})
         }}>
         <option value="None">None</option>
@@ -20,9 +20,6 @@ const AddBar = () => {
         <option value="SORT_BY_REVERSE_ALPHABETICAL_ORDER">Name: Reverse Alphabetical</option>
     </select>
     
-    <Link to="/createToDo">+ Add To Do +</Link>
-    <Link to="/createCategory">+ Add Category +</Link>
-    <Link to="/daily">Today's To Dos</Link>
 </div>
   )
 }

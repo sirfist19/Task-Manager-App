@@ -1,6 +1,8 @@
 // Function to lighten a color
 export const lightenColor = (hex, percent) => {
     // Ensure the percent is between 0 and 100
+    //console.log("HEX:", hex)
+
     if (percent < 0) percent = 0;
     if (percent > 100) percent = 100;
   

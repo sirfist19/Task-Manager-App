@@ -3,12 +3,16 @@ const {category} = require('../models/toDoSchema'); // import the schemas
 
 const getAllCategories = async (req, res) => {
     console.log("Getting all categories in backend");
-    const allToCategories = await category.find({});
+    const user_id = req.user._id;
+    console.log(user_id);
+    const allToCategories = await category.find({user_id});
     res.status(200).json(allToCategories);
 };
 
 const createCategory = async (req, res) => {
     console.log("Adding a new category");
+    const user_id = req.user._id;
+
     // get the data from the req
     const {
         name,
@@ -19,7 +23,8 @@ const createCategory = async (req, res) => {
     try {
         const created_category = await category.create({
             name,
-            color
+            color,
+            user_id
         }); // creates a new document in the db
         res.status(200).json(created_category);
     } catch (error) {
